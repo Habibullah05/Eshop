@@ -1,0 +1,9 @@
+﻿@using UrlShortApp.Models.Entities;
+
+@model List<UrlShort>
+
+
+@foreach (var item in Model)
+{
+    <partial name="Element" model="item" />
+}

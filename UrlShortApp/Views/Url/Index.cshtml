@@ -1,4 +1,6 @@
-﻿@model UrlShortApp.Models.Entities.UrlShort
+﻿
+@using UrlShortApp.ViewModels
+@model AddUrlViewModel
 @{
     ViewBag.Title = "URL shortener";
 }
@@ -6,6 +8,11 @@
 
 
 <form asp-controller="Url" asp-action="Index" method="post">
+    @if (Model?.ShortURL != null)
+    {
+        <p>You link is @Model.ShortURL</p>
+
+    }
     <input type="hidden" name="returnUrl" value="model" />
     <div class="text-dark" asp-validation-summary="All"></div>
     <div class="form-group">
@@ -14,13 +21,14 @@
         <span asp-validation-for="LongUrl" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label na="ShortURL"></label>
-        <input name="ShortURL" class="form-control">
-        @*<span asp-validation-for="ShortURL" class="text-danger"></span>*@
+        <label asp-for="Hash"></label>
+        <input asp-for="Hash" class="form-control">
+        <span asp-validation-for="Hash" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
 
 @section Scripts
 {

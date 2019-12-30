@@ -1,0 +1,29 @@
+﻿@using UrlShortApp.Models.Entities;
+@model List<UrlShort>
+
+
+
+<div class=" alert-primary" role="alert">
+    <div class="col-12 p-1">
+        <h1 class="m-2">Links list</h1>
+    </div>
+</div>
+
+
+
+<table class="table mt-2" id="table">
+    <thead>
+        <tr>
+            <th class="nwrap">Long URL</th>
+            <th class="nwrap">Short URL</th>
+            <th class="nwrap">Create date</th>
+            <th class="nwrap">Uses  Count</th>
+            <th class="nwrap"></th>
+        </tr>
+    </thead>
+    <tbody id="urlsTable" class="">
+        <partial name="BodyTable" model="@Model" />
+    </tbody>
+</table>
+
+

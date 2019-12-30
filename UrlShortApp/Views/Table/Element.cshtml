@@ -1,0 +1,25 @@
+﻿@using UrlShortApp.Models.Entities;
+@model UrlShort;
+
+    <tr>
+
+        <td class="text-left url-text-wrap">
+            <a href="@Model.LongUrl">
+                @Model.LongUrl
+            </a>
+        </td>
+        <td class="text-left url-text-wrap">
+            <a href="@Model.ShortURL">
+                @Model.ShortURL
+            </a>
+        </td>
+        <td class="text-left">
+            @Model.CreateUrl.ToString("dd/MM/yyyy")
+        </td>
+        <td class="text-right">
+            @Model.CountUse
+        </td>
+        <td class="text-center">
+            <a  asp-controller="Table" asp-action="DeleteUrl" asp-route-id="@Model.ShortURL">Remove</a>
+        </td>
+    </tr>

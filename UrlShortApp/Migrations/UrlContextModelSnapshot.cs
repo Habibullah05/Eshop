@@ -21,10 +21,9 @@ namespace UrlShortApp.Migrations
 
             modelBuilder.Entity("UrlShortApp.Models.Entities.UrlShort", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CountUse")
                         .HasColumnType("int");
@@ -34,13 +33,19 @@ namespace UrlShortApp.Migrations
 
                     b.Property<string>("LongUrl")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ShortURL")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LongUrl")
+                        .IsUnique();
+
+                    b.HasIndex("ShortURL")
+                        .IsUnique();
 
                     b.ToTable("ShortUrls");
                 });

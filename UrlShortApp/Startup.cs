@@ -12,6 +12,7 @@ using UrlShortApp.Models.Repositories;
 using Microsoft.EntityFrameworkCore;
 using UrlShortApp.Models.Abstractions;
 using UrlShortApp.Models.Services;
+using UrlShortApp.Extentions;
 
 namespace UrlShortApp
 {
@@ -27,12 +28,14 @@ namespace UrlShortApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             services.AddDbContext<UrlContext>(options => {
 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddControllersWithViews();
-            services.AddTransient<IUrlManager, UrlManager>();
+            services.AddHashService();
+            services.AddUrlManager();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,7 +62,7 @@ namespace UrlShortApp
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Url}/{action=Index}/{segment?}");
             });
         }
     }

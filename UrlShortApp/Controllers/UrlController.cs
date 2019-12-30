@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using UrlShortApp.Models.Abstractions;
 using UrlShortApp.Models.Entities;
 using System.Web;
-
-
+using UrlShortApp.ViewModels;
 
 namespace UrlShortApp.Controllers
 {
@@ -21,44 +20,36 @@ namespace UrlShortApp.Controllers
             this._urlManager = urlManager;
         }
 
-        [Microsoft.AspNetCore.Mvc.Route("shorten")]
-        public async Task<UrlShort> Shorten([FromUri]string url, [FromUri]string segment = "")
-        {
-            UrlShort shortUrl = await this._urlManager.ShortenUrl(HttpUtility.UrlDecode(url), segment);
-            UrlShort urlModel = new UrlShort()
-            {
-                LongUrl = url,
-                ShortURL = string.Format("{0}://{1}", HttpContext.Request.Scheme, shortUrl.ShortURL)
-            };
-            return urlModel;
-        }
+   
 
         [Microsoft.AspNetCore.Mvc.HttpGet]
         public ActionResult Index()
         {
-            UrlShort url = new UrlShort();
+            AddUrlViewModel url = new AddUrlViewModel();
             return View(url);
-        }
+        
+      }
 
         [Microsoft.AspNetCore.Mvc.HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index(UrlShort lurl)
+        public async Task<ActionResult> Index(AddUrlViewModel addUrl)
         {
-            
-            UrlShort sT = await _urlManager.ShortenUrl(HttpUtility.UrlDecode(lurl.LongUrl), lurl.ShortURL);             
-            return View(sT);
-            
-           // return View();
+            UrlShort url = await _urlManager.ShortenUrl(HttpUtility.UrlDecode(addUrl.LongUrl), addUrl.ShortURL);
+            AddUrlViewModel newAddUrl = new AddUrlViewModel()
+            {
+                ShortURL = string.Format("{0}://{1}", HttpContext.Request.Scheme, url.ShortURL)
+            };
+            return View(url);
+       
         }
 
-      //[Microsoft.AspNetCore.Mvc.HttpPost]
-        [Microsoft.AspNetCore.Mvc.Route("click")]
+        [Microsoft.AspNetCore.Mvc.Route("{segment}")]
         public async Task<ActionResult> Click(string segment)
         {
            
             string longUrl= await _urlManager.Click(segment);
 
-            return RedirectPermanent(longUrl);
+            return Redirect(longUrl);
         }
     }
 }
