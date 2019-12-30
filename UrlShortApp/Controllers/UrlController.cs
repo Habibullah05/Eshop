@@ -34,12 +34,12 @@ namespace UrlShortApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(AddUrlViewModel addUrl)
         {
-            UrlShort url = await _urlManager.ShortenUrl(HttpUtility.UrlDecode(addUrl.LongUrl), addUrl.ShortURL);
+            string shortUrl = await _urlManager.ShortenUrl(HttpUtility.UrlDecode(addUrl.LongUrl), addUrl.Hash);
             AddUrlViewModel newAddUrl = new AddUrlViewModel()
             {
-                ShortURL = string.Format("{0}://{1}", HttpContext.Request.Scheme, url.ShortURL)
+                ShortURL = string.Format("{0}://{1}/{2}", HttpContext.Request.Scheme,HttpContext.Request.Host, shortUrl)
             };
-            return View(url);
+            return View(newAddUrl);
        
         }
 

@@ -29,27 +29,28 @@ namespace UrlShortApp.Models.Services
             return await _urlContext.ShortUrls.AnyAsync(x => x.ShortURL == segment);
         }
 
-        public async Task<UrlShort> ShortenUrl(string longUrl, string segment = "")
+        public async Task<string> ShortenUrl(string longUrl, string segment = "")
         {
             UrlShort url = await _urlContext.ShortUrls.FirstOrDefaultAsync(u => u.LongUrl == longUrl);
             if (url != null)
             {
-                return url;
+                return url.ShortURL;
             }
+            string newUrl;
             do
             {
-                segment = generationService.NewSegment();
+                newUrl = generationService.NewSegment(segment);
             }
-            while (await CheckExist(segment));
+            while (await CheckExist(newUrl));
             url = new UrlShort()
             {
                 CreateUrl = DateTime.Now,
                 LongUrl = longUrl,
                 CountUse = 0,
-                ShortURL = segment
+                ShortURL = newUrl
             };
             await AddUrlShort(url);
-            return url;
+            return url.ShortURL;
         }
 
         public async Task AddUrlShort(UrlShort url)

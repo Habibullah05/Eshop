@@ -8,7 +8,7 @@ namespace UrlShortApp.Models.Abstractions
 {
     public interface IUrlManager
     {
-        Task<UrlShort> ShortenUrl(string longUrl,  string segment = "");
+        Task<string> ShortenUrl(string longUrl,  string segment = "");
         Task<string> Click(string segment);
         Task<IEnumerable<UrlShort>> GetAllUrlShort();
         Task RemoveUrl(string id);

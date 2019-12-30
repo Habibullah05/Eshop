@@ -10,7 +10,7 @@
 <form asp-controller="Url" asp-action="Index" method="post">
     @if (Model?.ShortURL != null)
     {
-        <p>You link is @Model.ShortURL</p>
+        <p>You link is <a href="@Model.ShortURL"> @Model.ShortURL </a></p>
 
     }
     <input type="hidden" name="returnUrl" value="model" />

@@ -7,6 +7,6 @@ namespace UrlShortApp.Models.Abstractions
 {
     public interface IHashGenerationService
     {
-        string NewSegment();
+        string NewSegment(string segment);
     }
 }

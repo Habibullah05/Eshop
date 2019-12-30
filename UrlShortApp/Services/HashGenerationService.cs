@@ -8,9 +8,17 @@ namespace UrlShortApp.Models.Services
 {
     public class HashGenerationService : IHashGenerationService
     {
-        public string NewSegment()
+        public string NewSegment(string segment )
         {
-            return Guid.NewGuid().ToString().Substring(0, 6);
+            if (segment == null)
+            {
+                return Guid.NewGuid().ToString().Substring(0, 9);
+            }
+           
+                return segment + Guid.NewGuid().ToString().Substring(0, 9 - segment.Length);
+            
+
+           
         }
     }
 }
